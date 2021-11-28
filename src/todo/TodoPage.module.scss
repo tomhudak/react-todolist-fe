@@ -1,0 +1,30 @@
+/* Include the padding and border in an element's total width and height */
+$br: 5px;
+
+* {
+    box-sizing: border-box;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+  }
+
+/* Remove margins and padding from the list */
+ul {
+    margin: 0;
+    padding: 0;
+}
+
+
+/* Style the header */
+.header {
+    background-color: lightblue;
+    padding: 30px 40px;
+    text-align: center;
+    border-radius: $br $br 0px 0px;
+    }
+    
+    /* Clear floats after the header */
+    .header:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+      
