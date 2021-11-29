@@ -3,10 +3,8 @@ import { TodoModel } from '../models/todo.model';
 import TodoForm from './TodoForm';
 import TodoList from './TodoList';
 import style from './TodoPage.module.scss';
-import { useGetTodos } from '../hooks/useGetTodos';
-
-
-let maxId = 5;
+import { createTodo, updateTodo, useGetTodos, deleteTodo } from './todo.api.service';
+import { ResponseModel } from '../models/response.model';
 
 const TodoPage = () => {
 
@@ -28,18 +26,22 @@ const TodoPage = () => {
     } );
   }, [executeGetTodos]);
 
-  const onSaveTodo = (description: string) => {
-    //TODO Add Backend
+  const onSaveTodo = async (description: string) => {
+    const rawResult = await createTodo(description);
+    console.log(rawResult);
+    const result = rawResult.data as ResponseModel;
+    //TODO error toaster
     
     setTodos([
       ...todos,
       {
         description: description,
-        completed: true,
-        id: maxId
+        completed: false,
+        id: parseInt(result.payload)
       }
     ]);
-    maxId++;
+
+    console.log(todos)
   }
 
   const onUpdateTodo = (id: number) => {
@@ -48,14 +50,16 @@ const TodoPage = () => {
     const todo = newTodos[index];
     todo.completed = !todo.completed;
 
-    //TODO Upate on Backend
+    const result = updateTodo(id, todo.completed);
+    //TODO Error toaster
 
     newTodos[index] = todo;
     setTodos(newTodos);
   }
 
   const onDeleteTodo = (id: number) => {
-    //TODO Remove Backend
+    const result = deleteTodo(id);
+    //TODO error toaster
 
     let newTodos = [...todos]
     setTodos(newTodos.filter((todo) => todo.id !== id));
