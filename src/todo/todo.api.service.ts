@@ -46,11 +46,12 @@ export const useGetTodos = () => {
       };
 }
 
-export const updateTodo = async (id: number, completed: boolean) => {
+export const updateTodo = async (id: string, completed: boolean) => {
     const url: string = `${baseURL}/todo/${id}`;
     return await executeApiCallWithResponseModel(url, 
         { 
             method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({completed: completed})
         });
 };
@@ -60,14 +61,16 @@ export const createTodo = async (description: string) => {
     return await executeApiCallWithResponseModel(url, 
         {
             method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({description: description})
         });
 };
 
-export const deleteTodo = async (id: number) => {
+export const deleteTodo = async (id: string) => {
     const url: string = `${baseURL}/todo/${id}`;
     return await executeApiCallWithResponseModel(url, 
         { 
-            method: 'DELETE'
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
         });
 };

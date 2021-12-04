@@ -30,39 +30,46 @@ const TodoPage = () => {
     const rawResult = await createTodo(description);
     console.log(rawResult);
     const result = rawResult.data as ResponseModel;
-    //TODO error toaster
     
-    setTodos([
-      ...todos,
-      {
-        description: description,
-        completed: false,
-        id: parseInt(result.payload)
-      }
-    ]);
 
-    console.log(todos)
+    if (result) {
+      setTodos([
+        ...todos,
+        {
+          description: description,
+          completed: false,
+          id: result.payload
+        }
+      ]);
+    } else {
+      //TODO error toaster
+    }    
   }
 
-  const onUpdateTodo = (id: number) => {
+  const onUpdateTodo = async (id: string) => {
     const newTodos = [...todos]
     const index = newTodos.findIndex(todo => todo.id === id);
     const todo = newTodos[index];
     todo.completed = !todo.completed;
 
-    const result = updateTodo(id, todo.completed);
-    //TODO Error toaster
-
-    newTodos[index] = todo;
-    setTodos(newTodos);
+    const result = await updateTodo(id, todo.completed);
+    if (result.success) {
+      newTodos[index] = todo;
+      setTodos(newTodos);
+    } else {
+          //TODO Error toaster
+    } 
   }
 
-  const onDeleteTodo = (id: number) => {
-    const result = deleteTodo(id);
-    //TODO error toaster
+  const onDeleteTodo = async (id: string) => {
+    const result = await deleteTodo(id);
 
-    let newTodos = [...todos]
-    setTodos(newTodos.filter((todo) => todo.id !== id));
+    if (result.success) {
+      let newTodos = [...todos]
+      setTodos(newTodos.filter((todo) => todo.id !== id));
+    } else {
+        //TODO error toaster
+    }
   }
 
   return (

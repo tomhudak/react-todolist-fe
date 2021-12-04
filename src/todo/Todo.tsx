@@ -4,8 +4,8 @@ import style from './Todo.module.scss';
 
 export interface TodoProps {
   todo: TodoModel;
-  onDeleteTodo (id: number): void;
-  onUpdateTodo (id: number): void;
+  onDeleteTodo (id: string): void;
+  onUpdateTodo (id: string): void;
 }
 
 const Todo = (props: TodoProps) => {

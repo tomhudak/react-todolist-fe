@@ -4,8 +4,8 @@ import Todo from './Todo';
 
 export interface TodoListProps {
   todos : TodoModel[];
-  onDeleteTodo (id: number): void;
-  onUpdateTodo (id: number): void;
+  onDeleteTodo (id: string): void;
+  onUpdateTodo (id: string): void;
 }
 
 const TodoList = (props: TodoListProps) => {
